@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Penjana Minit Mesyuarat – SK Sungai Tiram</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#e9edf2;color:#1b2430}
+#app{display:grid;grid-template-columns:420px 1fr;gap:16px;padding:16px;align-items:start}
+#form{background:#fff;border-radius:10px;padding:16px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;box-shadow:0 1px 4px #0002}
+#form h1{font-size:17px;margin:0 0 4px;display:flex;gap:8px;align-items:center}
+#form h1 img{height:34px}
+#form h2{font-size:13px;margin:16px 0 6px;color:#0b3d91;border-bottom:1px solid #d5dbe5;padding-bottom:3px}
+label{display:block;font-size:12px;margin:7px 0 2px;color:#46546a}
+input,select,textarea{width:100%;padding:6px 8px;border:1px solid #b9c3d3;border-radius:6px;font:13px Arial}
+textarea{min-height:80px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ag{border:1px solid #cfd8e6;border-radius:8px;padding:8px;margin:8px 0;background:#f7f9fc}
+.ag .top{display:flex;gap:6px;align-items:center}
+.ag .top b{min-width:22px}
+button{cursor:pointer;border:0;border-radius:6px;padding:7px 12px;font:600 13px Arial;background:#0b3d91;color:#fff}
+button.sec{background:#e3e9f3;color:#12306b}
+button.x{background:#fbe4e4;color:#a11;padding:5px 9px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.hint{font-size:11px;color:#6a778c;margin-top:3px}
+#preview{display:flex;flex-direction:column;align-items:center}
+
+/* ===== Kertas A4 (format asal: Arial 11, margin 0.8in) ===== */
+.sheet{background:#fff;width:210mm;min-height:297mm;padding:0.8in;box-shadow:0 2px 8px #0003;position:relative;
+  font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.15;color:#000}
+.hdr{position:absolute;top:0.5in;left:0.8in;right:0.8in;text-align:right;font-size:10pt;border-bottom:1px solid #000;padding-bottom:2px}
+.ftr{position:absolute;bottom:0.45in;left:0.8in;right:0.8in;font-size:9pt;border-top:1px solid #000;padding-top:3px}
+.doc{margin-top:0.35in}
+.pk{text-align:right;font-weight:bold;margin:14px 0 18px}
+.ttl{text-align:center;font-weight:bold;margin:0}
+.meta{margin-top:26px}
+.meta div{display:flex}.meta span:first-child{width:130px;flex:none}
+.ag1{margin-top:12px;break-inside:avoid-page}
+.h1{display:flex;gap:10px;margin-left:0.25in}.h1 .n{width:0.35in;flex:none}
+.h2{display:flex;margin:8px 0 2px 0.7in}.h2 .n{width:0.45in;flex:none}
+.pt{display:flex;margin-left:0.7in;text-align:justify}.pt .n{width:0.45in;flex:none}
+.pt.s{margin-left:1.15in}.pt.s .n{width:0.55in}
+.dash{margin-left:1.15in}
+.tag{text-align:right;font-weight:bold;font-style:italic;margin:10px 0 0}
+.tag div{margin:0}
+.penutup{margin-top:34px}
+.lamp img{width:100%;display:block;margin:8px 0}
+.lamp h4{margin:0 0 8px;font-weight:normal}
+.pg{display:none}
+
+@media print{
+  body{background:#fff}#form{display:none}#app{display:block;padding:0}
+  .sheet{box-shadow:none;width:auto;min-height:0;padding:0}
+  .hdr,.ftr{position:fixed}
+  .hdr{top:-0.3in;left:0;right:0}.ftr{bottom:-0.3in;left:0;right:0}
+  @page{size:A4;margin:0.8in}
+  .lamp{break-before:page}
+  .ag1{break-inside:avoid}
+}
+@media (max-width:1000px){#app{grid-template-columns:1fr}#form{position:static;max-height:none}.sheet{width:100%;padding:20px}.hdr,.ftr{position:static;margin:0 0 8px}}
+</style>
+</head>
+<body>
+<div id="app">
+<section id="form">
+  <h1><img src="logo.jpg" alt="" onerror="this.remove()">Penjana Minit SK Sungai Tiram</h1>
+  <div class="hint">Isi borang → pratonton di sebelah kanan terus dikemas kini → tekan <b>Cetak / Simpan PDF</b>.</div>
+
+  <h2>1. Jenis &amp; Tajuk</h2>
+  <div class="row">
+    <div><label>Jenis minit</label><select id="jenis"><option value="MESYUARAT">Minit Mesyuarat</option><option value="MESYUARAT CURAI">Minit Mesyuarat Curai</option></select></div>
+    <div><label>Kod borang</label><input id="kod" value="PK 07/3"></div>
+  </div>
+  <label>Nama Panitia / Jawatankuasa</label><input id="panitia" value="Bahasa Inggeris">
+  <div class="row">
+    <div><label>Bil</label><input id="bil" value="1"></div>
+    <div><label>Tahun (pada tajuk)</label><input id="tahun" value="2025"></div>
+  </div>
+
+  <h2>2. Butiran Mesyuarat</h2>
+  <div class="row">
+    <div><label>Tarikh (hari terus dikira)</label><input type="date" id="tarikh"></div>
+    <div><label>Tempat</label><input id="tempat" value="Bilik Gerakan"></div>
+  </div>
+  <div class="row">
+    <div><label>Masa mula</label><input type="time" id="mula" value="11:00"></div>
+    <div><label>Masa tamat</label><input type="time" id="tamat" value="12:10"></div>
+  </div>
+  <label>Pengerusi</label><input id="pengerusi" value="Puan Jamilah binti Armutee">
+  <label>Kehadiran (Bilangan)</label><input id="hadir" value="Rujuk lampiran kehadiran">
+  <label>Turut hadir (jika ada)</label><input id="turut" value="">
+
+  <h2>3. Agenda</h2>
+  <div class="hint">Satu baris = satu perkara (auto 1.1, 1.2…). Mula baris dengan <b>##</b> untuk sub-tajuk (cth 4.1) – perkara selepasnya jadi 4.1.1. Mula dengan <b>-</b> untuk senarai titik.</div>
+  <div id="agendas"></div>
+  <div class="bar"><button class="sec" id="addAg">+ Tambah Agenda</button></div>
+
+  <h2>4. Penutup &amp; Pengesahan</h2>
+  <label>Disediakan oleh (jawatan)</label><input id="jawatan" value="SETIAUSAHA PANITIA">
+  <label>Tarikh disediakan</label><input type="date" id="sedia">
+  <h2>5. Lampiran (gambar, pilihan)</h2>
+  <input type="file" id="lamp" accept="image/*" multiple>
+
+  <div class="bar" style="margin-top:16px">
+    <button id="print">🖨 Cetak / Simpan PDF</button>
+    <button class="sec" id="save">Simpan draf</button>
+    <button class="sec" id="reset">Kosongkan</button>
+  </div>
+</section>
+<section id="preview"><div class="sheet" id="sheet"></div></section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const HARI=['AHAD','ISNIN','SELASA','RABU','KHAMIS','JUMAAT','SABTU'];
+const BULAN=['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const parse=v=>{const [y,m,d]=v.split('-').map(Number);return new Date(y,m-1,d)};
+function masa(v){if(!v)return'';let [h,m]=v.split(':').map(Number);const p=h<12?'pagi':h<14?'tengahari':h<19?'petang':'malam';
+  const hh=h>12?h-12:h;return `${hh}.${String(m).padStart(2,'0')} ${p}`}
+let agendas=[],lampiran=[];
+const DEFAULT=[
+ {t:'Perutusan Pengerusi',p:'Pengerusi mengucapkan salam dan terima kasih atas kehadiran semua ahli Jawatankuasa Panitia {panitia} SK Sungai Tiram bagi sesi akademik {tahun}.\nPengerusi berharap mendapat 100% sokongan daripada semua guru agar semua program dan sesi akademik berjalan lancar.',tag:'Makluman',tin:''},
+ {t:'Pengesahan Minit Mesyuarat Yang Lalu',p:'- Tiada -',tag:'',tin:'',plain:1},
+ {t:'Perkara – Perkara Berbangkit',p:'Tiada',tag:'',tin:'',plain:1},
+ {t:'Fokus Mesyuarat',p:'## Tajuk sub-agenda\nPerkara pertama.\nPerkara kedua.',tag:'Tindakan',tin:'Ketua panitia dan guru mata pelajaran'}
+];
+function renderForm(){
+  $('agendas').innerHTML=agendas.map((a,i)=>`<div class="ag"><div class="top"><b>${i+1}.</b>
+   <input data-i="${i}" data-k="t" value="${esc(a.t)}" placeholder="Tajuk agenda">
+   <button class="x" data-del="${i}">✕</button></div>
+   <label>Perkara</label><textarea data-i="${i}" data-k="p">${esc(a.p)}</textarea>
+   <div class="row"><div><label>Penanda</label><select data-i="${i}" data-k="tag">
+     ${['','Makluman','Tindakan'].map(o=>`<option ${a.tag===o?'selected':''} value="${o}">${o||'(tiada)'}</option>`).join('')}</select></div>
+   <div><label>Pihak bertindak</label><input data-i="${i}" data-k="tin" value="${esc(a.tin)}"></div></div></div>`).join('');
+}
+function fill(s){return s.replace(/\{panitia\}/g,$('panitia').value).replace(/\{tahun\}/g,$('tahun').value)}
+function agendaHTML(){
+  return agendas.map((a,i)=>{
+    const n=i+1;let out=`<div class="ag1"><div class="h1"><span class="n">${n}.</span><span>${esc(a.t)}</span></div>`;
+    let sub=0,pt=0;const lines=fill(a.p).split('\n').map(x=>x.trim()).filter(Boolean);
+    lines.forEach(l=>{
+      if(l.startsWith('## ')){sub++;pt=0;out+=`<div class="h2"><span class="n">${n}.${sub}</span><span>${esc(l.slice(3))}</span></div>`}
+      else if(l.startsWith('- ')&&!a.plain){out+=`<div class="dash">– ${esc(l.slice(2))}</div>`}
+      else if(a.plain){out+=`<div class="pt" style="margin-left:0.7in">${esc(l)}</div>`}
+      else{pt++;const num=sub?`${n}.${sub}.${pt}`:`${n}.${pt}`;
+        out+=`<div class="pt${sub?' s':''}"><span class="n">${num}</span><span>${esc(l)}</span></div>`}
+    });
+    if(a.tag){out+=`<div class="tag"><div>${a.tag}</div>${a.tag==='Tindakan'&&a.tin?`<div>${esc(a.tin)}</div>`:''}</div>`}
+    return out+'</div>';
+  }).join('');
+}
+function render(){
+  const t=$('tarikh').value?parse($('tarikh').value):null;
+  const tarikh=t?`${t.getDate()} ${BULAN[t.getMonth()].toUpperCase()} ${t.getFullYear()} (${HARI[t.getDay()]})`:'';
+  const sd=$('sedia').value?parse($('sedia').value):null;
+  const sedia=sd?`${sd.getDate()} ${BULAN[sd.getMonth()]} ${sd.getFullYear()}`:'';
+  const P=$('panitia').value, tamat=masa($('tamat').value);
+  const jenis=$('jenis').value;
+  $('sheet').innerHTML=`
+  <div class="hdr">PK07 &nbsp;–&nbsp; Pengurusan Mesyuarat</div>
+  <div class="ftr">Hak Cipta Terpelihara © Sektor Jaminan Kualiti, Jabatan Pendidikan Negeri Johor<br>01 Januari 2018 &nbsp;-&nbsp; &nbsp;Keluaran 05 &nbsp;| &nbsp;Pindaan 00</div>
+  <div class="doc">
+  <div class="pk">${esc($('kod').value)}</div>
+  <p class="ttl">SEKOLAH &nbsp;KEBANGSAAN SUNGAI TIRAM</p><br>
+  <p class="ttl">MINIT ${jenis} PANITIA ${esc(P.toUpperCase())}<br>BIL ${esc($('bil').value)}/ ${esc($('tahun').value)}</p>
+  <div class="meta">
+   <div><span>Tarikh</span><span>: ${tarikh}</span></div>
+   <div><span>Masa</span><span>: ${masa($('mula').value)} – ${tamat}</span></div>
+   <div><span>Tempat</span><span>: ${esc($('tempat').value)}</span></div>
+   <div><span>Pengerusi</span><span>: ${esc($('pengerusi').value)}</span></div><br>
+   <div><span>Kehadiran (Bilangan)</span><span>: ${esc($('hadir').value)}</span></div>
+   <div><span>Turut hadir(Jika ada)</span><span>: ${esc($('turut').value)}</span></div>
+  </div>
+  ${agendaHTML()}
+  <div class="penutup"><p>PENUTUP</p>
+   <p>Akhir kata, pengerusi mengucapkan terima kasih atas kehadiran guru ${esc(P)} dan berharap agar semua perkara yang dinyatakan dalam mesyuarat ini difahami dengan sebaiknya dan diambil tindakan yang sewajarnya. Mesyuarat ditangguhkan pada jam ${tamat}.</p>
+   <p>Disediakan oleh,<br>${esc($('jawatan').value)}<br>Mesyuarat Panitia ${esc(P)} Bil ${esc($('bil').value)}/${esc($('tahun').value)}</p>
+   <p>Tarikh: ${sedia}</p></div>
+  ${lampiran.length?`<div class="lamp"><h4>Lampiran</h4>${lampiran.map(s=>`<img src="${s}">`).join('')}</div>`:''}
+  </div>`;
+}
+function sync(){render();localStorage.setItem('minitDraf',JSON.stringify({f:[...document.querySelectorAll('#form input:not([type=file]),#form select')].filter(e=>e.id).map(e=>[e.id,e.value]),agendas}))}
+$('form').addEventListener('input',e=>{const d=e.target.dataset;if(d.k){agendas[d.i][d.k]=e.target.value}sync()});
+$('form').addEventListener('click',e=>{const d=e.target.dataset.del;if(d!==undefined){agendas.splice(d,1);renderForm();sync()}});
+$('addAg').onclick=()=>{agendas.push({t:'',p:'',tag:'',tin:''});renderForm();sync()};
+$('print').onclick=()=>{render();window.print()};
+$('save').onclick=()=>{sync();alert('Draf disimpan dalam pelayar ini.')};
+$('reset').onclick=()=>{if(confirm('Padam draf dan mula semula?')){localStorage.removeItem('minitDraf');location.reload()}};
+$('lamp').onchange=async e=>{lampiran=await Promise.all([...e.target.files].map(f=>new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)})));render()};
+(function init(){
+  agendas=JSON.parse(JSON.stringify(DEFAULT));
+  const d=localStorage.getItem('minitDraf');
+  if(d){try{const o=JSON.parse(d);o.f.forEach(([id,v])=>{if($(id))$(id).value=v});agendas=o.agendas}catch(e){}}
+  renderForm();render();
+})();
+</script>
+</body>
+</html>
