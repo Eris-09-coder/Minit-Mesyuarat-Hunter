@@ -1,27 +1,44 @@
-# Penjana Minit Mesyuarat – SK Sungai Tiram
+# Penjana Minit Mesyuarat & Minit Curai — Gemini + ChatGPT
 
-Alat web percuma (tanpa pemasangan) untuk menjana **Minit Mesyuarat / Minit Mesyuarat Curai** dalam format PK07.
+## What is included
+- `index.html`: user interface with Gemini / ChatGPT selection, fields, notes, preview, PDF printing, and PDF/DOCX/TXT/image text extraction.
+- `api/generate.js`: server-side API route. Calls Gemini or OpenAI and returns structured agenda text.
+- `package.json`, `vercel.json`: deployment configuration.
 
-## Cara guna (guru)
-1. Buka pautan GitHub Pages sekolah.
-2. Isi borang di sebelah kiri (tarikh, masa, tempat, pengerusi, agenda).
-3. Hari, bulan dan masa (pagi/tengahari/petang) dikira automatik.
-4. Tekan **Cetak / Simpan PDF** → pilih saiz **A4**, margin **Default/None**, matikan "Headers and footers".
+## Deploy (recommended: Vercel + GitHub)
+GitHub Pages hosts static files only and cannot run `/api/generate.js`. Use Vercel for both the frontend and API:
+1. Create a GitHub repository and upload all files, keeping `api/generate.js` inside the `api` folder.
+2. Import that repository into https://vercel.com/ and deploy it as a Node project.
+3. In Vercel project **Settings → Environment Variables**, add one or both:
+   - `GEMINI_API_KEY` = your Google AI Studio API key
+   - `OPENAI_API_KEY` = your OpenAI API key
+   Optional model overrides:
+   - `GEMINI_MODEL` = `gemini-2.5-flash`
+   - `OPENAI_MODEL` = `gpt-4.1-mini`
+4. Redeploy after setting/changing environment variables.
+5. Test both providers from the website. If only one provider key is set, the other option will return a clear error until its key is configured.
 
-## Format agenda
-- Satu baris = satu perkara (auto 1.1, 1.2 …)
-- `## Tajuk` = sub-tajuk (4.1) → perkara di bawahnya 4.1.1, 4.1.2 …
-- `- teks` = senarai titik
-- Penanda: *Makluman* atau *Tindakan* (+ pihak bertindak)
+## Get API keys
+- Gemini: https://aistudio.google.com/app/apikey
+- OpenAI: https://platform.openai.com/api-keys
 
-## Pasang di GitHub Pages
-1. Cipta repo baharu → muat naik `index.html`, `logo.jpg`, `README.md`.
-2. Settings → Pages → Source: `main` / root → Save.
-3. Kongsi pautan `https://<nama-akaun>.github.io/<nama-repo>/` kepada semua guru.
+API access and billing are separate from ChatGPT subscriptions or Google consumer plans. Review each provider's pricing, quotas and school data policies before use.
 
-Draf disimpan dalam pelayar guru sendiri (tiada data dihantar ke mana-mana pelayan).
+## Critical security notes
+- Never place either API key in `index.html`, GitHub code, or any browser-side JavaScript. This project keeps the keys on the server as environment variables.
+- Do not commit `.env` files or API keys. Anyone with access to your Vercel project settings may be able to manage its secrets.
+- This starter does not implement DELIMa login, teacher roles, usage quotas, or user authentication. The deployed URL may be usable by anyone who can reach it, and API calls may incur costs. Add authentication/rate limiting before a school-wide launch.
+- Avoid confidential pupil/staff data until the school approves the hosting and AI provider arrangements. The text submitted for AI generation is sent to the selected provider's API.
+- PDF/DOCX extraction and image OCR occur in the browser; extraction libraries are downloaded from public CDNs. Image OCR supports English and Malay where language data is available.
+- Old `.doc` files should be converted to `.docx` or PDF first.
+- The current preview is an approximate HTML layout, not a pixel-perfect copy of the supplied Word template. Strict exact-format output requires using the approved DOCX as the source template and filling placeholders with a server-side DOCX generation workflow.
 
-## Ciri OPR
-- **Cara A:** pilih gambar OPR → *Baca OPR* (OCR dalam pelayar, perlu internet) → semak teks → *Jana agenda*. Gambar OPR dilampirkan automatik.
-- **Cara B:** *Salin arahan AI* → muat naik OPR ke Claude + tampal arahan → tampal jawapan → *Masukkan ke agenda*.
-Sentiasa semak hasil sebelum cetak.
+## How teachers use it
+1. Enter meeting metadata.
+2. Paste notes or upload a file to extract its text.
+3. Choose Gemini or ChatGPT.
+4. Click **Jana dengan AI**.
+5. Check names, dates, decisions and action owners against the original source.
+6. Edit the result and click **Cetak / Simpan PDF**.
+
+The AI must not be treated as an official record without human review.

@@ -1,261 +1,226 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ms">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Penjana Minit Mesyuarat – SK Sungai Tiram</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Penjana Minit Mesyuarat & Minit Curai | SK Sungai Tiram</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#e9edf2;color:#1b2430}
-#app{display:grid;grid-template-columns:420px 1fr;gap:16px;padding:16px;align-items:start}
-#form{background:#fff;border-radius:10px;padding:16px;position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;box-shadow:0 1px 4px #0002}
-#form h1{font-size:17px;margin:0 0 4px;display:flex;gap:8px;align-items:center}
-#form h1 img{height:34px}
-#form h2{font-size:13px;margin:16px 0 6px;color:#0b3d91;border-bottom:1px solid #d5dbe5;padding-bottom:3px}
-label{display:block;font-size:12px;margin:7px 0 2px;color:#46546a}
-input,select,textarea{width:100%;padding:6px 8px;border:1px solid #b9c3d3;border-radius:6px;font:13px Arial}
-textarea{min-height:80px;resize:vertical}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ag{border:1px solid #cfd8e6;border-radius:8px;padding:8px;margin:8px 0;background:#f7f9fc}
-.ag .top{display:flex;gap:6px;align-items:center}
-.ag .top b{min-width:22px}
-button{cursor:pointer;border:0;border-radius:6px;padding:7px 12px;font:600 13px Arial;background:#0b3d91;color:#fff}
-button.sec{background:#e3e9f3;color:#12306b}
-button.x{background:#fbe4e4;color:#a11;padding:5px 9px}
-.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.hint{font-size:11px;color:#6a778c;margin-top:3px}
-#preview{display:flex;flex-direction:column;align-items:center}
-
-/* ===== Kertas A4 (format asal: Arial 11, margin 0.8in) ===== */
-.sheet{background:#fff;width:210mm;min-height:297mm;padding:0.8in;box-shadow:0 2px 8px #0003;position:relative;
-  font-family:Arial,Helvetica,sans-serif;font-size:11pt;line-height:1.15;color:#000}
-.hdr{position:absolute;top:0.5in;left:0.8in;right:0.8in;text-align:right;font-size:10pt;border-bottom:1px solid #000;padding-bottom:2px}
-.ftr{position:absolute;bottom:0.45in;left:0.8in;right:0.8in;font-size:9pt;border-top:1px solid #000;padding-top:3px}
-.doc{margin-top:0.35in}
-.pk{text-align:right;font-weight:bold;margin:14px 0 18px}
-.ttl{text-align:center;font-weight:bold;margin:0}
-.meta{margin-top:26px}
-.meta div{display:flex}.meta span:first-child{width:130px;flex:none}
-.ag1{margin-top:12px;break-inside:avoid-page}
-.h1{display:flex;gap:10px;margin-left:0.25in}.h1 .n{width:0.35in;flex:none}
-.h2{display:flex;margin:8px 0 2px 0.7in}.h2 .n{width:0.45in;flex:none}
-.pt{display:flex;margin-left:0.7in;text-align:justify}.pt .n{width:0.45in;flex:none}
-.pt.s{margin-left:1.15in}.pt.s .n{width:0.55in}
-.dash{margin-left:1.15in}
-.tag{text-align:right;font-weight:bold;font-style:italic;margin:10px 0 0}
-.tag div{margin:0}
-.penutup{margin-top:34px}
-.lamp img{width:100%;display:block;margin:8px 0}
-.lamp h4{margin:0 0 8px;font-weight:normal}
-.pg{display:none}
-
+:root{--navy:#17324d;--blue:#245a81;--bg:#f3f6f9;--line:#d8e0e8;--ink:#17212b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Arial,Helvetica,sans-serif}
+header{background:var(--navy);color:white;padding:24px max(20px,calc((100% - 1150px)/2))}
+header h1{font-size:24px;margin:0 0 5px}header p{margin:0;color:#e2edf5}
+main{max-width:1150px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:minmax(300px,420px) minmax(0,1fr);gap:20px}
+.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 2px 8px #16324d0a;min-width:0}
+h2{font-size:18px;margin:0 0 14px;color:var(--navy)}label{display:block;font-weight:700;margin:12px 0 5px}
+input,select,textarea{font:inherit;width:100%;border:1px solid #bac7d3;border-radius:7px;padding:9px;background:white;color:var(--ink)}
+textarea{min-height:100px;resize:vertical}.small{font-size:12px;color:#5a6875;font-weight:400}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:8px;padding:10px 13px;font:inherit;font-weight:700;cursor:pointer;background:var(--blue);color:white}
+button.secondary{background:#e8eef4;color:var(--navy);border:1px solid #cad6e0}
+button.danger{background:#fff0ee;color:#8e2b22;border:1px solid #f0c9c4}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.note{padding:10px 12px;background:#eef5fa;border-left:3px solid var(--blue);font-size:13px;margin:12px 0}
+#preview{background:white;border:1px solid #ccd4dc;min-height:650px;padding:32px 38px;overflow:auto}
+.paper{max-width:800px;margin:0 auto;font-family:"Times New Roman",serif;font-size:12pt;color:#000;line-height:1.25}
+.paper .topline{text-align:right;font-size:11pt;margin-bottom:20px}.paper .school{text-align:center;font-weight:bold;margin:20px 0 8px}
+.paper .doc-title{text-align:center;font-weight:bold;margin:0}.paper .meta{margin:20px 0}.paper .meta div{display:grid;grid-template-columns:185px 1fr;gap:5px;margin:3px 0}
+.paper .agenda{margin:16px 0 0}.paper .agenda-title{font-weight:bold;margin:10px 0 5px}.paper .subitem{margin:5px 0 5px 28px;white-space:pre-wrap}.paper .item-text{white-space:pre-wrap}
+.paper .action{text-align:right;margin:10px 0 14px;white-space:pre-wrap}.paper .closing{margin-top:25px}.paper .signature{margin-top:35px}.paper .footer{font-size:9pt;margin-top:30px;border-top:1px solid #aaa;padding-top:5px}
+.hidden{display:none!important}
+@media(max-width:850px){main{grid-template-columns:1fr}#preview{padding:20px}.paper .meta div{grid-template-columns:145px 1fr}}
 @media print{
-  body{background:#fff}#form{display:none}#app{display:block;padding:0}
-  .sheet{box-shadow:none;width:auto;min-height:0;padding:0}
-  .hdr,.ftr{position:fixed}
-  .hdr{top:-0.3in;left:0;right:0}.ftr{bottom:-0.3in;left:0;right:0}
-  @page{size:A4;margin:0.8in}
-  .lamp{break-before:page}
-  .ag1{break-inside:avoid}
+ body{background:white}header,.editor,.screen-only{display:none!important}main{display:block;max-width:none;margin:0;padding:0}.panel{border:0;box-shadow:none;padding:0}#preview{border:0;padding:0;min-height:0;overflow:visible}.paper{max-width:none;font-size:11pt}
+ @page{size:A4;margin:18mm 20mm 18mm 22mm}
+ .paper .footer{position:relative}
 }
-@media (max-width:1000px){#app{grid-template-columns:1fr}#form{position:static;max-height:none}.sheet{width:100%;padding:20px}.hdr,.ftr{position:static;margin:0 0 8px}}
 </style>
 </head>
 <body>
-<div id="app">
-<section id="form">
-  <h1><img src="logo.jpg" alt="" onerror="this.remove()">Penjana Minit SK Sungai Tiram</h1>
-  <div class="hint">Isi borang → pratonton di sebelah kanan terus dikemas kini → tekan <b>Cetak / Simpan PDF</b>.</div>
+<header>
+<h1>Penjana Minit Mesyuarat & Minit Curai</h1>
+<p>SK Sungai Tiram · Isi maklumat, semak pratonton, kemudian cetak atau simpan sebagai PDF.</p>
+</header>
+<main>
+<section class="panel editor">
+<h2>Maklumat dokumen</h2>
+<div class="note"><b>AI pilihan:</b> Pilih Gemini atau ChatGPT. Sambungan memerlukan backend yang diterbitkan dan API key disimpan sebagai rahsia pada hosting — jangan masukkan API key di sini.</div>
+<label for="provider">Pembekal AI</label>
+<select id="provider"><option value="gemini">Google Gemini</option><option value="openai">ChatGPT (OpenAI API)</option></select>
+<label for="prompt">Arahan tambahan untuk AI <span class="small">(pilihan)</span></label>
+<textarea id="prompt" placeholder="Contoh: Gunakan Bahasa Melayu rasmi. Kekalkan semua keputusan dan tindakan. Jangan tambah fakta yang tiada dalam nota." style="min-height:75px"></textarea>
 
-  <h2>1. Jenis &amp; Tajuk</h2>
-  <div class="row">
-    <div><label>Jenis minit</label><select id="jenis"><option value="MESYUARAT">Minit Mesyuarat</option><option value="MESYUARAT CURAI">Minit Mesyuarat Curai</option></select></div>
-    <div><label>Kod borang</label><input id="kod" value="PK 07/3"></div>
-  </div>
-  <label>Nama Panitia / Jawatankuasa</label><input id="panitia" value="Bahasa Inggeris">
-  <div class="row">
-    <div><label>Bil</label><input id="bil" value="1"></div>
-    <div><label>Tahun (pada tajuk)</label><input id="tahun" value="2025"></div>
-  </div>
+<label for="type">Jenis dokumen</label>
+<select id="type"><option value="meeting">Minit Mesyuarat (format PK07)</option><option value="curai">Minit Curai</option></select>
+<div class="note">Isi maklumat yang diketahui sahaja. Ruangan kosong tidak akan direka-reka. Semak semula semua fakta sebelum mencetak.</div>
+<label>Nama sekolah</label><input id="school" value="SEKOLAH KEBANGSAAN SUNGAI TIRAM">
+<label>Tajuk mesyuarat / taklimat</label><input id="title" value="MINIT MESYUARAT PANITIA BAHASA INGGERIS">
+<div class="grid2"><div><label>Bilangan</label><input id="bil" placeholder="Bil 1/2026"></div><div><label>Kod / rujukan</label><input id="code" value="PK 07/3"></div></div>
+<div class="grid2"><div><label>Hari</label><input id="day" placeholder="JUMAAT"></div><div><label>Tarikh</label><input id="date" placeholder="14 FEBRUARI 2026"></div></div>
+<div class="grid2"><div><label>Masa</label><input id="time" placeholder="11.00 pagi – 12.10 tengahari"></div><div><label>Tempat</label><input id="venue" placeholder="Bilik Gerakan"></div></div>
+<label>Pengerusi / penyampai</label><input id="chair" placeholder="Nama dan jawatan">
+<div class="grid2"><div><label>Kehadiran</label><input id="attendance" placeholder="Rujuk lampiran kehadiran"></div><div><label>Turut hadir</label><input id="attendOther" placeholder="Jika ada"></div></div>
+<label>Setiausaha / penyedia</label><input id="secretary" placeholder="Nama atau jawatan">
+<label>Tarikh disediakan</label><input id="prepared" placeholder="20 Oktober 2026">
+<label>Nota, prompt atau teks asal <span class="small">(boleh tampal nota mentah)</span></label>
+<textarea id="raw" placeholder="Contoh: Pengerusi membuka mesyuarat. Guru perlu hantar RPT sebelum Jumaat. Ketua panitia semak dan maklumkan status. Mesyuarat tamat 12.10 tengahari."></textarea>
+<label>Muat naik fail untuk diekstrak <span class="small">(PDF, DOCX, TXT, imej)</span></label>
+<input id="file" type="file" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp">
+<p class="small">Pemprosesan fail berlaku dalam pelayar menggunakan pustaka luaran. DOC lama (.doc) mungkin perlu ditukar kepada DOCX atau PDF dahulu. OCR imej memerlukan internet kali pertama.</p>
+<label>Format agenda / isi minit <span class="small">(boleh edit sebelum cetak)</span></label>
+<textarea id="agenda" style="min-height:170px">1. Perutusan Pengerusi
+Pengerusi mengucapkan salam dan terima kasih atas kehadiran semua ahli.
 
-  <h2>2. Butiran Mesyuarat</h2>
-  <div class="row">
-    <div><label>Tarikh (hari terus dikira)</label><input type="date" id="tarikh"></div>
-    <div><label>Tempat</label><input id="tempat" value="Bilik Gerakan"></div>
-  </div>
-  <div class="row">
-    <div><label>Masa mula</label><input type="time" id="mula" value="11:00"></div>
-    <div><label>Masa tamat</label><input type="time" id="tamat" value="12:10"></div>
-  </div>
-  <label>Pengerusi</label><input id="pengerusi" value="Puan Jamilah binti Armutee">
-  <label>Kehadiran (Bilangan)</label><input id="hadir" value="Rujuk lampiran kehadiran">
-  <label>Turut hadir (jika ada)</label><input id="turut" value="">
+2. Pengesahan Minit Mesyuarat Yang Lalu
+Tiada.
 
-  <h2>3. Agenda</h2>
-  <div class="hint">Satu baris = satu perkara (auto 1.1, 1.2…). Mula baris dengan <b>##</b> untuk sub-tajuk (cth 4.1) – perkara selepasnya jadi 4.1.1. Mula dengan <b>-</b> untuk senarai titik.</div>
-  <div id="agendas"></div>
-  <div class="bar"><button class="sec" id="addAg">+ Tambah Agenda</button></div>
+3. Perkara-Perkara Berbangkit
+Tiada.
 
-  <h2>4. OPR (laporan program) – jana agenda automatik</h2>
-  <div class="hint"><b>Cara A (percuma, dalam pelayar):</b> pilih gambar OPR → Baca OPR → semak teks → Jana agenda.</div>
-  <input type="file" id="opr" accept="image/*" multiple>
-  <div class="bar"><button class="sec" id="ocr">📖 Baca OPR</button></div>
-  <div class="hint" id="ocrst"></div>
-  <label>Teks OPR (boleh dibetulkan sebelum jana)</label><textarea id="oprtxt" placeholder="Teks daripada OPR akan muncul di sini…"></textarea>
-  <div class="bar"><button class="sec" id="oprgen">➕ Jana agenda daripada teks OPR</button></div>
-  <div class="hint" style="margin-top:10px"><b>Cara B (hasil lebih baik, guna Claude/AI percuma):</b> tekan Salin arahan → buka Claude → muat naik gambar OPR + tampal arahan → salin jawapan → tampal di bawah.</div>
-  <div class="bar"><button class="sec" id="prompt">📋 Salin arahan AI</button></div>
-  <textarea id="aitxt" placeholder="Tampal jawapan AI di sini (bermula dengan TAJUK: …)"></textarea>
-  <div class="bar"><button class="sec" id="aigen">➕ Masukkan ke agenda</button></div>
-
-  <h2>5. Penutup &amp; Pengesahan</h2>
-  <label>Disediakan oleh (jawatan)</label><input id="jawatan" value="SETIAUSAHA PANITIA">
-  <label>Tarikh disediakan</label><input type="date" id="sedia">
-  <h2>6. Lampiran lain (gambar, pilihan)</h2>
-  <input type="file" id="lamp" accept="image/*" multiple>
-
-  <div class="bar" style="margin-top:16px">
-    <button id="print">🖨 Cetak / Simpan PDF</button>
-    <button class="sec" id="save">Simpan draf</button>
-    <button class="sec" id="reset">Kosongkan</button>
-  </div>
-</section>
-<section id="preview"><div class="sheet" id="sheet"></div></section>
+4. Fokus Mesyuarat
+Masukkan perkara yang dibincangkan di sini.
+Tindakan: Makluman</textarea>
+<label>Penutup</label><textarea id="closing">Pengerusi mengucapkan terima kasih atas kehadiran semua dan berharap perkara yang dibincangkan diambil tindakan sewajarnya.</textarea>
+<label>Footer rasmi (kekalkan teks asal jika diperlukan)</label>
+<input id="footer" value="Hak Cipta Terpelihara © Sektor Jaminan Kualiti, Jabatan Pendidikan Negeri Johor | 01 Januari 2018 - Keluaran 05 | Pindaan 00">
+<div class="actions">
+<button id="aiGenerate">Jana dengan AI</button><button id="generate">Kemas kini pratonton</button><button class="secondary" id="auto">Susun nota ringkas</button>
+<button class="secondary" id="download">Muat turun HTML</button><button class="secondary" id="print">Cetak / Simpan PDF</button>
+<button class="danger" id="clear">Kosongkan isi</button>
 </div>
-
+<p id="status" class="small" role="status"></p>
+</section>
+<section class="panel">
+<div class="screen-only" style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px">
+<h2 style="margin:0">Pratonton dokumen</h2><button class="secondary" id="refresh">Refresh</button>
+</div>
+<div id="preview"><div class="paper" id="paper"></div></div>
+</section>
+</main>
 <script>
 const $=id=>document.getElementById(id);
-const HARI=['AHAD','ISNIN','SELASA','RABU','KHAMIS','JUMAAT','SABTU'];
-const BULAN=['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'];
-const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const parse=v=>{const [y,m,d]=v.split('-').map(Number);return new Date(y,m-1,d)};
-function masa(v){if(!v)return'';let [h,m]=v.split(':').map(Number);const p=h<12?'pagi':h<14?'tengahari':h<19?'petang':'malam';
-  const hh=h>12?h-12:h;return `${hh}.${String(m).padStart(2,'0')} ${p}`}
-let agendas=[],lampiran=[],lampOPR=[];
-const DEFAULT=[
- {t:'Perutusan Pengerusi',p:'Pengerusi mengucapkan salam dan terima kasih atas kehadiran semua ahli Jawatankuasa Panitia {panitia} SK Sungai Tiram bagi sesi akademik {tahun}.\nPengerusi berharap mendapat 100% sokongan daripada semua guru agar semua program dan sesi akademik berjalan lancar.',tag:'Makluman',tin:''},
- {t:'Pengesahan Minit Mesyuarat Yang Lalu',p:'- Tiada -',tag:'',tin:'',plain:1},
- {t:'Perkara – Perkara Berbangkit',p:'Tiada',tag:'',tin:'',plain:1},
- {t:'Fokus Mesyuarat',p:'## Tajuk sub-agenda\nPerkara pertama.\nPerkara kedua.',tag:'Tindakan',tin:'Ketua panitia dan guru mata pelajaran'}
-];
-function renderForm(){
-  $('agendas').innerHTML=agendas.map((a,i)=>`<div class="ag"><div class="top"><b>${i+1}.</b>
-   <input data-i="${i}" data-k="t" value="${esc(a.t)}" placeholder="Tajuk agenda">
-   <button class="x" data-del="${i}">✕</button></div>
-   <label>Perkara</label><textarea data-i="${i}" data-k="p">${esc(a.p)}</textarea>
-   <div class="row"><div><label>Penanda</label><select data-i="${i}" data-k="tag">
-     ${['','Makluman','Tindakan'].map(o=>`<option ${a.tag===o?'selected':''} value="${o}">${o||'(tiada)'}</option>`).join('')}</select></div>
-   <div><label>Pihak bertindak</label><input data-i="${i}" data-k="tin" value="${esc(a.tin)}"></div></div></div>`).join('');
-}
-function fill(s){return s.replace(/\{panitia\}/g,$('panitia').value).replace(/\{tahun\}/g,$('tahun').value)}
-function agendaHTML(){
-  return agendas.map((a,i)=>{
-    const n=i+1;let out=`<div class="ag1"><div class="h1"><span class="n">${n}.</span><span>${esc(a.t)}</span></div>`;
-    let sub=0,pt=0;const lines=fill(a.p).split('\n').map(x=>x.trim()).filter(Boolean);
-    lines.forEach(l=>{
-      if(l.startsWith('## ')){sub++;pt=0;out+=`<div class="h2"><span class="n">${n}.${sub}</span><span>${esc(l.slice(3))}</span></div>`}
-      else if(l.startsWith('- ')&&!a.plain){out+=`<div class="dash">– ${esc(l.slice(2))}</div>`}
-      else if(a.plain){out+=`<div class="pt" style="margin-left:0.7in">${esc(l)}</div>`}
-      else{pt++;const num=sub?`${n}.${sub}.${pt}`:`${n}.${pt}`;
-        out+=`<div class="pt${sub?' s':''}"><span class="n">${num}</span><span>${esc(l)}</span></div>`}
-    });
-    if(a.tag){out+=`<div class="tag"><div>${a.tag}</div>${a.tag==='Tindakan'&&a.tin?`<div>${esc(a.tin)}</div>`:''}</div>`}
-    return out+'</div>';
-  }).join('');
-}
+const val=id=>$(id).value.trim();
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const br=s=>esc(s).replace(/\n/g,"<br>");
 function render(){
-  const t=$('tarikh').value?parse($('tarikh').value):null;
-  const tarikh=t?`${t.getDate()} ${BULAN[t.getMonth()].toUpperCase()} ${t.getFullYear()} (${HARI[t.getDay()]})`:'';
-  const sd=$('sedia').value?parse($('sedia').value):null;
-  const sedia=sd?`${sd.getDate()} ${BULAN[sd.getMonth()]} ${sd.getFullYear()}`:'';
-  const P=$('panitia').value, tamat=masa($('tamat').value);
-  const jenis=$('jenis').value;
-  $('sheet').innerHTML=`
-  <div class="hdr">PK07 &nbsp;–&nbsp; Pengurusan Mesyuarat</div>
-  <div class="ftr">Hak Cipta Terpelihara © Sektor Jaminan Kualiti, Jabatan Pendidikan Negeri Johor<br>01 Januari 2018 &nbsp;-&nbsp; &nbsp;Keluaran 05 &nbsp;| &nbsp;Pindaan 00</div>
-  <div class="doc">
-  <div class="pk">${esc($('kod').value)}</div>
-  <p class="ttl">SEKOLAH &nbsp;KEBANGSAAN SUNGAI TIRAM</p><br>
-  <p class="ttl">MINIT ${jenis} PANITIA ${esc(P.toUpperCase())}<br>BIL ${esc($('bil').value)}/ ${esc($('tahun').value)}</p>
-  <div class="meta">
-   <div><span>Tarikh</span><span>: ${tarikh}</span></div>
-   <div><span>Masa</span><span>: ${masa($('mula').value)} – ${tamat}</span></div>
-   <div><span>Tempat</span><span>: ${esc($('tempat').value)}</span></div>
-   <div><span>Pengerusi</span><span>: ${esc($('pengerusi').value)}</span></div><br>
-   <div><span>Kehadiran (Bilangan)</span><span>: ${esc($('hadir').value)}</span></div>
-   <div><span>Turut hadir(Jika ada)</span><span>: ${esc($('turut').value)}</span></div>
-  </div>
-  ${agendaHTML()}
-  <div class="penutup"><p>PENUTUP</p>
-   <p>Akhir kata, pengerusi mengucapkan terima kasih atas kehadiran guru ${esc(P)} dan berharap agar semua perkara yang dinyatakan dalam mesyuarat ini difahami dengan sebaiknya dan diambil tindakan yang sewajarnya. Mesyuarat ditangguhkan pada jam ${tamat}.</p>
-   <p>Disediakan oleh,<br>${esc($('jawatan').value)}<br>Mesyuarat Panitia ${esc(P)} Bil ${esc($('bil').value)}/${esc($('tahun').value)}</p>
-   <p>Tarikh: ${sedia}</p></div>
-  ${(lampOPR.length+lampiran.length)?`<div class="lamp"><h4>Lampiran</h4>${[...lampOPR,...lampiran].map(s=>`<img src="${s}">`).join('')}</div>`:''}
-  </div>`;
+ const curai=val("type")==="curai";
+ const school=val("school")||"SEKOLAH KEBANGSAAN SUNGAI TIRAM";
+ const title=val("title")||(curai?"MINIT CURAI":"MINIT MESYUARAT");
+ const bil=val("bil"),day=val("day"),date=val("date");
+ const agenda=val("agenda");
+ const lines=agenda.split(/\n/);let blocks="",current="",sub=0;
+ for(const line0 of lines){
+  const line=line0.trim();if(!line)continue;
+  if(/^\d+(\.\d+)*[.)]?\s+/.test(line)){
+   const m=line.match(/^(\d+(?:\.\d+)*[.)]?)\s+(.*)$/);
+   current=m[1].replace(/[.)]$/,"");sub=0;
+   blocks+=`<div class="agenda-title">${esc(m[1])} ${esc(m[2])}</div>`;
+  }else if(/^(tindakan|makluman|untuk tindakan|action)\s*:/i.test(line)){
+   blocks+=`<div class="action">${esc(line)}</div>`;
+  }else if(/^(tiada|dimaklumkan|pengerusi|mesyuarat|guru|semua|ketua|cadangan|antara|beliau|ahli|setiausaha|perkara|keputusan|tindakan)/i.test(line)){
+   sub++;blocks+=`<div class="subitem">${current?esc(current+"."+sub)+" ":""}${esc(line)}</div>`;
+  }else{
+   blocks+=`<div class="subitem">${esc(line)}</div>`;
+  }
+ }
+ const meta=[
+ ["Tarikh",`${date}${day?` (${day})`:""}`],["Masa",val("time")],["Tempat",val("venue")],
+ [curai?"Pengerusi / Penyampai":"Pengerusi",val("chair")],
+ ["Kehadiran (Bilangan)",val("attendance")],["Turut hadir (Jika ada)",val("attendOther")]
+ ];
+ let metaHtml=meta.filter(x=>x[1]).map(x=>`<div><span>${esc(x[0])}</span><span>: ${esc(x[1])}</span></div>`).join("");
+ let out=`<div class="topline">${esc(val("code")||"PK07 – Pengurusan Mesyuarat")}</div>
+ <div class="school">${esc(school)}</div><div class="doc-title">${esc(title)}${bil?"<br>"+esc(bil):""}</div>
+ <div class="meta">${metaHtml}</div>`;
+ if(curai){
+   out+=`<div class="agenda-title">TUJUAN / FOKUS</div>${blocks}<div class="closing"><b>RUMUSAN / TINDAKAN SUSULAN</b><p>${br(val("closing"))}</p></div>`;
+ }else{
+   out+=`<div class="agenda">${blocks}</div><div class="closing"><b>PENUTUP</b><p>${br(val("closing"))}</p></div>
+   <div class="signature">Disediakan oleh,<br><br><b>${esc(val("secretary")||"SETIAUSAHA")}</b><br>${esc(title)}${bil?" "+esc(bil):""}<br><br>Tarikh: ${esc(val("prepared"))}</div>`;
+ }
+ out+=`<div class="footer">${esc(val("footer"))}</div>`;
+ $("paper").innerHTML=out;
 }
-function sync(){render();localStorage.setItem('minitDraf',JSON.stringify({f:[...document.querySelectorAll('#form input:not([type=file]),#form select')].filter(e=>e.id).map(e=>[e.id,e.value]),agendas}))}
-$('form').addEventListener('input',e=>{const d=e.target.dataset;if(d.k){agendas[d.i][d.k]=e.target.value}sync()});
-$('form').addEventListener('click',e=>{const d=e.target.dataset.del;if(d!==undefined){agendas.splice(d,1);renderForm();sync()}});
-$('addAg').onclick=()=>{agendas.push({t:'',p:'',tag:'',tin:''});renderForm();sync()};
-$('print').onclick=()=>{render();window.print()};
-$('save').onclick=()=>{sync();alert('Draf disimpan dalam pelayar ini.')};
-$('reset').onclick=()=>{if(confirm('Padam draf dan mula semula?')){localStorage.removeItem('minitDraf');location.reload()}};
-$('lamp').onchange=async e=>{lampiran=await Promise.all([...e.target.files].map(f=>new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)})));render()};
+function autoFormat(){
+ const raw=val("raw");if(!raw){$("status").textContent="Masukkan atau tampal nota dahulu.";return}
+ const lines=raw.split(/\n|(?<=[.!?])\s+/).map(x=>x.trim()).filter(Boolean);
+ let result="",n=1;
+ for(const line of lines){
+  if(/^(agenda|1\.|2\.|3\.|4\.|5\.|6\.|7\.|8\.|9\.)/i.test(line)){result+=line+"\n"}
+  else if(/^(tindakan|makluman|untuk tindakan)\s*:/i.test(line)){result+=line+"\n"}
+  else {result+=line+"\n"}
+ }
+ $("agenda").value=result;
+ $("status").textContent="Nota disusun secara asas. Sila semak dan tambah nombor agenda / tindakan secara manual.";
+ render();
+}
+async function extractFile(file){
+ const status=$("status");status.textContent="Membaca fail…";
+ try{
+  const ext=file.name.split(".").pop().toLowerCase();let text="";
+  if(ext==="txt"){text=await file.text()}
+  else if(ext==="pdf"){
+   await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+   pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+   const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+   for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const c=await page.getTextContent();text+=c.items.map(x=>x.str).join(" ")+"\n"}
+   if(!text.trim())status.textContent="PDF nampaknya imbasan tanpa teks. Cuba OCR imej atau salin teksnya.";
+  }else if(ext==="docx"){
+   await loadScript("https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js");
+   const r=await mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});text=r.value;
+  }else if(["png","jpg","jpeg","webp"].includes(ext)){
+   await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js");
+   const r=await Tesseract.recognize(file,"eng+msa");text=r.data.text;
+  }else{throw new Error("Format tidak disokong. Tukar fail .doc kepada PDF atau DOCX.")}
+  $("raw").value=text;
+  $("status").textContent=`Teks diekstrak daripada ${file.name}. Semak teks, kemudian klik “Susun nota ringkas” dan semak semula sebelum cetak.`;
+ }catch(e){status.textContent="Gagal membaca fail: "+e.message+" — anda boleh tampal teks secara manual."}
+}
+function loadScript(src){return new Promise((resolve,reject)=>{if(document.querySelector(`script[src="${src}"]`))return resolve();const s=document.createElement("script");s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error("Pustaka tidak dapat dimuat turun; semak sambungan internet."));document.head.appendChild(s)})}
+function downloadHtml(){
+ render();const doc=`<!doctype html><html lang="ms"><head><meta charset="utf-8"><title>${esc(val("title")||"Minit")}</title><style>body{font:12pt 'Times New Roman',serif;margin:20mm;color:#000;line-height:1.25}.paper{max-width:800px;margin:auto}.topline{text-align:right}.school,.doc-title{text-align:center;font-weight:bold}.school{margin:20px 0 8px}.meta{margin:20px 0}.meta div{display:grid;grid-template-columns:185px 1fr;margin:3px 0}.agenda-title{font-weight:bold;margin:10px 0 5px}.subitem{margin:5px 0 5px 28px;white-space:pre-wrap}.action{text-align:right;margin:10px 0 14px}.closing{margin-top:25px}.signature{margin-top:35px}.footer{font-size:9pt;margin-top:30px;border-top:1px solid #aaa;padding-top:5px}@page{size:A4;margin:18mm 20mm}</style></head><body><div class="paper">${$("paper").innerHTML}</div></body></html>`;
+ const blob=new Blob([doc],{type:"text/html;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(val("title")||"minit").replace(/[^\w\- ]/g,"").replace(/\s+/g,"_")+".html";a.click();URL.revokeObjectURL(a.href);
+}
+$("generate").onclick=render;$("refresh").onclick=render;$("auto").onclick=autoFormat;$("print").onclick=()=>{render();window.print()};$("download").onclick=downloadHtml;
+$("file").addEventListener("change",e=>{if(e.target.files[0])extractFile(e.target.files[0])});
+$("clear").onclick=()=>{if(!confirm("Kosongkan nota, agenda dan maklumat mesyuarat?"))return;["bil","day","date","time","venue","chair","attendance","attendOther","secretary","prepared","raw"].forEach(id=>$(id).value="");$("agenda").value="";$("closing").value="";render();$("status").textContent="Ruangan dikosongkan."};
+$("type").onchange=()=>{if(val("type")==="curai"){$("title").value="MINIT CURAI";$("code").value="MINIT CURAI"}else{$("title").value="MINIT MESYUARAT PANITIA BAHASA INGGERIS";$("code").value="PK 07/3"}render()};
 
-/* ===== OPR ===== */
-const readURL=f=>new Promise(r=>{const x=new FileReader();x.onload=()=>r(x.result);x.readAsDataURL(f)});
-function loadTess(){return new Promise((res,rej)=>{if(window.Tesseract)return res();const sc=document.createElement('script');
-  sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';sc.onload=res;sc.onerror=()=>rej(new Error('Tiada internet'));document.head.appendChild(sc)})}
-$('ocr').onclick=async()=>{
-  const files=[...$('opr').files];if(!files.length){alert('Pilih gambar OPR dahulu.');return}
-  lampOPR=await Promise.all(files.map(readURL));render();
-  const st=$('ocrst');let all='';
-  try{
-    st.textContent='Memuatkan enjin OCR…';await loadTess();
-    const w=await Tesseract.createWorker('msa+eng',1,{logger:m=>{if(m.status)st.textContent=m.status+' '+Math.round((m.progress||0)*100)+'%'}});
-    for(const f of files){const r=await w.recognize(f);all+=r.data.text+'\n'}
-    await w.terminate();st.textContent='Siap. Sila semak & betulkan teks di bawah.';
-  }catch(e){st.textContent='OCR gagal: '+e.message+'. Cuba Cara B.'}
-  $('oprtxt').value=all.trim();
-};
-function parseOPR(t){
-  const keys={nama:/^(nama\s*program|tajuk\s*program|tajuk|program|aktiviti)\b/i,tarikh:/^(tarikh|hari\s*\/?\s*tarikh)\b/i,masa:/^masa\b/i,tempat:/^(tempat|lokasi)\b/i,
-   objektif:/^objektif\b/i,impak:/^(impak|kesan|dapatan)\b/i,stop:/^(penganjur|kehadiran|peserta|sasaran|refleksi|cadangan|disediakan|disemak|bajet|kos)\b/i};
-  const o={};let cur=null;
-  t.split('\n').map(l=>l.trim()).filter(Boolean).forEach(l=>{
-    let hit=null;for(const k in keys){if(keys[k].test(l)){hit=k;break}}
-    if(hit){cur=hit==='stop'?null:hit;if(cur){const v=l.replace(/^[^:\-–]*[:\-–]?\s*/,'').trim();o[cur]=(o[cur]?o[cur]+' ':'')+v}}
-    else if(cur){o[cur]=(o[cur]?o[cur]+' ':'')+l}
-  });return o;
+async function generateWithAI(){
+ const status=$("status");
+ const source=val("raw");
+ const agenda=val("agenda");
+ if(!source && !agenda){status.textContent="Masukkan nota atau agenda dahulu.";return}
+ const btn=$("aiGenerate");btn.disabled=true;btn.textContent="Sedang menjana…";
+ status.textContent="Menghantar nota ke backend AI yang dikonfigurasi…";
+ try{
+  const payload={
+   provider:val("provider"),
+   documentType:val("type"),
+   fields:{
+    school:val("school"),title:val("title"),bil:val("bil"),code:val("code"),
+    day:val("day"),date:val("date"),time:val("time"),venue:val("venue"),
+    chair:val("chair"),attendance:val("attendance"),attendOther:val("attendOther"),
+    secretary:val("secretary"),prepared:val("prepared"),closing:val("closing"),footer:val("footer")
+   },
+   rawNotes:source, existingAgenda:agenda, instructions:val("prompt")
+  };
+  const response=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||"Permintaan AI gagal.");
+  $("agenda").value=data.agenda||agenda;
+  if(data.title && !val("title"))$("title").value=data.title;
+  if(data.closing)$("closing").value=data.closing;
+  if(data.fields){
+   for(const id of ["day","date","time","venue","chair","attendance","attendOther","bil","secretary","prepared"]){
+    if(data.fields[id] && !val(id))$(id).value=data.fields[id];
+   }
+  }
+  render();
+  status.textContent="Draf AI siap. Semak semua nama, tarikh, keputusan dan tindakan sebelum dicetak.";
+ }catch(e){
+  status.textContent="AI belum disambungkan atau berlaku ralat: "+e.message+". Semak deployment backend dan API key dalam Environment Variables.";
+ }finally{btn.disabled=false;btn.textContent="Jana dengan AI"}
 }
-$('oprgen').onclick=()=>{
-  const t=$('oprtxt').value.trim();if(!t){alert('Teks OPR kosong. Tekan Baca OPR dahulu.');return}
-  const o=parseOPR(t);const nama=(o.nama||'').replace(/[.]$/,'')||'(nama program)';const pts=[];
-  pts.push(`Pengerusi membentangkan laporan program ${nama}`+(o.tarikh||o.tempat?` yang telah dilaksanakan${o.tarikh?' pada '+o.tarikh:''}${o.tempat?' bertempat di '+o.tempat:''}.`:'.'));
-  if(o.objektif)pts.push(`Pengerusi menyatakan objektif program ialah ${o.objektif}`);
-  if(o.impak)pts.push(`Pengerusi memaklumkan impak program: ${o.impak}`);
-  pts.push('Laporan program yang lengkap dilampirkan. (rujuk Lampiran)');
-  agendas.push({t:'Laporan Program '+nama,p:pts.join('\n'),tag:'Makluman',tin:''});renderForm();sync();
-  alert('Agenda ditambah. Semak dan edit di bahagian Agenda.');
-};
-const PROMPT=`Saya lampirkan gambar OPR (One Page Report) program sekolah. Sila tulis ringkasan untuk dimasukkan ke dalam minit mesyuarat panitia, dalam Bahasa Melayu formal, bergaya "Pengerusi membentangkan / memaklumkan / menyatakan …".
-Jawab dalam format tepat ini sahaja, tanpa simbol markdown dan tanpa ayat tambahan:
-TAJUK: Laporan Program <nama program>
-<4 hingga 7 baris, satu ayat setiap baris, merangkumi: tarikh dan tempat, objektif, aktiviti, penyertaan murid/guru, impak atau dapatan, dan cadangan penambahbaikan>
-Jangan reka maklumat yang tiada dalam gambar. Jika sesuatu tidak jelas, tinggalkan.`;
-$('prompt').onclick=async()=>{try{await navigator.clipboard.writeText(PROMPT);alert('Arahan disalin. Buka Claude, muat naik gambar OPR dan tampal arahan.')}catch(e){prompt('Salin arahan ini:',PROMPT)}};
-$('aigen').onclick=()=>{
-  const lines=$('aitxt').value.split('\n').map(l=>l.trim()).filter(Boolean);if(!lines.length){alert('Tampal jawapan AI dahulu.');return}
-  let title='Laporan Program';if(/^tajuk\s*:/i.test(lines[0]))title=lines.shift().replace(/^tajuk\s*:\s*/i,'');
-  agendas.push({t:title,p:lines.join('\n'),tag:'Makluman',tin:''});renderForm();sync();$('aitxt').value='';
-  alert('Agenda ditambah. Semak dan edit di bahagian Agenda.');
-};
-(function init(){
-  agendas=JSON.parse(JSON.stringify(DEFAULT));
-  const d=localStorage.getItem('minitDraf');
-  if(d){try{const o=JSON.parse(d);o.f.forEach(([id,v])=>{if($(id))$(id).value=v});agendas=o.agendas}catch(e){}}
-  renderForm();render();
-})();
+$("aiGenerate").onclick=generateWithAI;
+render();
 </script>
-</body>
-</html>
+</body></html>

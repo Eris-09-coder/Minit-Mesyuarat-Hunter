@@ -1,0 +1,9 @@
+{
+  "name": "penjana-minit-skst",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-enabled school meeting minutes generator",
+  "engines": {
+    "node": ">=18"
+  }
+}
