@@ -20,3 +20,8 @@ Alat web percuma (tanpa pemasangan) untuk menjana **Minit Mesyuarat / Minit Mesy
 3. Kongsi pautan `https://<nama-akaun>.github.io/<nama-repo>/` kepada semua guru.
 
 Draf disimpan dalam pelayar guru sendiri (tiada data dihantar ke mana-mana pelayan).
+
+## Ciri OPR
+- **Cara A:** pilih gambar OPR → *Baca OPR* (OCR dalam pelayar, perlu internet) → semak teks → *Jana agenda*. Gambar OPR dilampirkan automatik.
+- **Cara B:** *Salin arahan AI* → muat naik OPR ke Claude + tampal arahan → tampal jawapan → *Masukkan ke agenda*.
+Sentiasa semak hasil sebelum cetak.
