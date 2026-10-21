@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Penjana Minit Mesyuarat & Minit Curai | SK Sungai Tiram</title>
+<style>
+:root{--navy:#17324d;--blue:#245a81;--bg:#f3f6f9;--line:#d8e0e8;--ink:#17212b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Arial,Helvetica,sans-serif}
+header{background:var(--navy);color:white;padding:24px max(20px,calc((100% - 1150px)/2))}
+header h1{font-size:24px;margin:0 0 5px}header p{margin:0;color:#e2edf5}
+main{max-width:1150px;margin:22px auto;padding:0 16px;display:grid;grid-template-columns:minmax(300px,420px) minmax(0,1fr);gap:20px}
+.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:0 2px 8px #16324d0a;min-width:0}
+h2{font-size:18px;margin:0 0 14px;color:var(--navy)}label{display:block;font-weight:700;margin:12px 0 5px}
+input,select,textarea{font:inherit;width:100%;border:1px solid #bac7d3;border-radius:7px;padding:9px;background:white;color:var(--ink)}
+textarea{min-height:100px;resize:vertical}.small{font-size:12px;color:#5a6875;font-weight:400}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{border:0;border-radius:8px;padding:10px 13px;font:inherit;font-weight:700;cursor:pointer;background:var(--blue);color:white}
+button.secondary{background:#e8eef4;color:var(--navy);border:1px solid #cad6e0}
+button.danger{background:#fff0ee;color:#8e2b22;border:1px solid #f0c9c4}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.note{padding:10px 12px;background:#eef5fa;border-left:3px solid var(--blue);font-size:13px;margin:12px 0}
+#preview{background:white;border:1px solid #ccd4dc;min-height:650px;padding:32px 38px;overflow:auto}
+.paper{max-width:800px;margin:0 auto;font-family:Arial,Helvetica,sans-serif;font-size:12pt;color:#000;line-height:1.25}
+.paper .topline{text-align:right;font-size:11pt;margin-bottom:20px}.paper .school{text-align:center;font-weight:bold;margin:20px 0 8px}
+.paper .doc-title{text-align:center;font-weight:bold;margin:0}.paper .meta{margin:20px 0}.paper .meta div{display:grid;grid-template-columns:185px 1fr;gap:5px;margin:3px 0}
+.paper .agenda{margin:16px 0 0}.paper .agenda-title{font-weight:bold;margin:10px 0 5px}.paper .subitem{margin:5px 0 5px 28px;white-space:pre-wrap}.paper .item-text{white-space:pre-wrap}
+.paper .action{text-align:right;margin:10px 0 14px;white-space:pre-wrap}.paper .closing{margin-top:25px}.paper .signature{margin-top:35px}.paper .footer{font-size:9pt;margin-top:30px;border-top:1px solid #aaa;padding-top:5px}
+.hidden{display:none!important}
+.paper .lampiran{page-break-before:always;break-before:page;margin-top:30px}.paper .lampiran h3{font-size:12pt;text-align:center;margin:0 0 12px}
+.paper .lampiran figure{margin:0 0 16px;text-align:center;break-inside:avoid;page-break-inside:avoid}.paper .lampiran img{max-width:100%;max-height:230mm;object-fit:contain}.paper .lampiran figcaption{font-size:11pt;margin-top:4px}
+.thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}.thumb{position:relative;width:90px;height:90px;border:1px solid #ccd4dc;border-radius:6px;overflow:hidden;background:#fff}.thumb img{width:100%;height:100%;object-fit:cover}.thumb button{position:absolute;top:2px;right:2px;padding:0 6px;font-size:14px;line-height:20px;border-radius:50%;background:#8e2b22;color:#fff;border:0;cursor:pointer}
+@media(max-width:850px){main{grid-template-columns:1fr}#preview{padding:20px}.paper .meta div{grid-template-columns:145px 1fr}}
+@media print{
+ body{background:white}header,.editor,.screen-only{display:none!important}main{display:block;max-width:none;margin:0;padding:0}.panel{border:0;box-shadow:none;padding:0}#preview{border:0;padding:0;min-height:0;overflow:visible}.paper{max-width:none;font-size:12pt}
+ @page{size:A4;margin:18mm 20mm 18mm 22mm}
+ .paper .footer{position:relative}
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Penjana Minit Mesyuarat & Minit Curai</h1>
+<p>SK Sungai Tiram · Isi maklumat, semak pratonton, kemudian cetak atau simpan sebagai PDF.</p>
+</header>
+<main>
+<section class="panel editor">
+<h2>Maklumat dokumen</h2>
+<div class="note"><b>AI pilihan:</b> Pilih Gemini atau ChatGPT. Sambungan memerlukan backend yang diterbitkan dan API key disimpan sebagai rahsia pada hosting — jangan masukkan API key di sini.</div>
+<label for="provider">Pembekal AI</label>
+<select id="provider"><option value="gemini">Google Gemini</option><option value="openai">ChatGPT (OpenAI API)</option></select>
+<label for="prompt">Arahan tambahan untuk AI <span class="small">(pilihan)</span></label>
+<textarea id="prompt" placeholder="Contoh: Gunakan Bahasa Melayu rasmi. Kekalkan semua keputusan dan tindakan. Jangan tambah fakta yang tiada dalam nota." style="min-height:75px"></textarea>
+
+<label for="type">Jenis dokumen</label>
+<select id="type"><option value="meeting">Minit Mesyuarat (format PK07)</option><option value="curai">Minit Curai</option></select>
+<div class="note">Isi maklumat yang diketahui sahaja. Ruangan kosong tidak akan direka-reka. Semak semula semua fakta sebelum mencetak.</div>
+<label>Nama sekolah</label><input id="school" value="SEKOLAH KEBANGSAAN SUNGAI TIRAM">
+<label>Tajuk mesyuarat / taklimat</label><input id="title" value="MINIT MESYUARAT PANITIA BAHASA INGGERIS">
+<div class="grid2"><div><label>Bilangan</label><input id="bil" placeholder="Bil 1/2026"></div><div><label>Kod / rujukan</label><input id="code" value="PK 07/3"></div></div>
+<div class="grid2"><div><label>Hari</label><input id="day" placeholder="JUMAAT"></div><div><label>Tarikh</label><input id="date" placeholder="14 FEBRUARI 2026"></div></div>
+<div class="grid2"><div><label>Masa</label><input id="time" placeholder="11.00 pagi – 12.10 tengahari"></div><div><label>Tempat</label><input id="venue" placeholder="Bilik Gerakan"></div></div>
+<label>Pengerusi / penyampai</label><input id="chair" placeholder="Nama dan jawatan">
+<div class="grid2"><div><label>Kehadiran</label><input id="attendance" placeholder="Rujuk lampiran kehadiran"></div><div><label>Turut hadir</label><input id="attendOther" placeholder="Jika ada"></div></div>
+<label>Tarikh disediakan <span class="small">(nama penyedia tetap dalam dokumen)</span></label><input id="prepared" placeholder="20 Oktober 2026">
+<label>Nota, prompt atau teks asal <span class="small">(boleh tampal nota mentah)</span></label>
+<textarea id="raw" placeholder="Contoh: Pengerusi membuka mesyuarat. Guru perlu hantar RPT sebelum Jumaat. Ketua panitia semak dan maklumkan status. Mesyuarat tamat 12.10 tengahari."></textarea>
+<label>Muat naik fail untuk diekstrak <span class="small">(PDF, DOCX, TXT, imej)</span></label>
+<input id="file" type="file" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg,.webp">
+<p class="small">Pemprosesan fail berlaku dalam pelayar menggunakan pustaka luaran. DOC lama (.doc) mungkin perlu ditukar kepada DOCX atau PDF dahulu. OCR imej memerlukan internet kali pertama.</p>
+<label>Lampiran gambar <span class="small">(boleh pilih beberapa gambar; dicetak di halaman LAMPIRAN)</span></label>
+<input id="attachFiles" type="file" accept="image/*" multiple>
+<div class="thumbs" id="thumbs"></div>
+<label>Format agenda / isi minit <span class="small">(boleh edit sebelum cetak)</span></label>
+<textarea id="agenda" style="min-height:170px">1. Perutusan Pengerusi
+Pengerusi mengucapkan salam dan terima kasih atas kehadiran semua ahli.
+
+2. Pengesahan Minit Mesyuarat Yang Lalu
+Tiada.
+
+3. Perkara-Perkara Berbangkit
+Tiada.
+
+4. Fokus Mesyuarat
+Masukkan perkara yang dibincangkan di sini.
+Tindakan: Makluman</textarea>
+<label>Penutup</label><textarea id="closing">Pengerusi mengucapkan terima kasih atas kehadiran semua dan berharap perkara yang dibincangkan diambil tindakan sewajarnya.</textarea>
+<label>Footer rasmi (kekalkan teks asal jika diperlukan)</label>
+<input id="footer" value="Hak Cipta Terpelihara © Sektor Jaminan Kualiti, Jabatan Pendidikan Negeri Johor | 01 Januari 2018 - Keluaran 05 | Pindaan 00">
+<div class="actions">
+<button id="aiGenerate">Jana dengan AI</button><button id="generate">Kemas kini pratonton</button><button class="secondary" id="auto">Susun nota ringkas</button>
+<button class="secondary" id="download">Muat turun HTML</button><button class="secondary" id="print">Cetak / Simpan PDF</button>
+<button class="danger" id="clear">Kosongkan isi</button>
+</div>
+<p id="status" class="small" role="status"></p>
+</section>
+<section class="panel">
+<div class="screen-only" style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px">
+<h2 style="margin:0">Pratonton dokumen</h2><button class="secondary" id="refresh">Refresh</button>
+</div>
+<div id="preview"><div class="paper" id="paper"></div></div>
+</section>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const val=id=>$(id).value.trim();
+let attachments=[];
+function readImage(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>{const img=new Image();img.onload=()=>{const max=1600,sc=Math.min(1,max/Math.max(img.width,img.height));const c=document.createElement("canvas");c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);c.getContext("2d").drawImage(img,0,0,c.width,c.height);resolve(c.toDataURL("image/jpeg",0.85))};img.onerror=()=>reject(new Error(file.name+" bukan gambar sah"));img.src=r.result};r.onerror=()=>reject(new Error("Gagal baca "+file.name));r.readAsDataURL(file)})}
+function renderThumbs(){$("thumbs").innerHTML=attachments.map((a,i)=>`<div class="thumb"><img src="${a}" alt=""><button type="button" data-i="${i}" title="Buang">×</button></div>`).join("");$("thumbs").querySelectorAll("button").forEach(b=>b.onclick=()=>{attachments.splice(+b.dataset.i,1);renderThumbs();render()})}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const br=s=>esc(s).replace(/\n/g,"<br>");
+function render(){
+ const curai=val("type")==="curai";
+ const school=val("school")||"SEKOLAH KEBANGSAAN SUNGAI TIRAM";
+ const title=val("title")||(curai?"MINIT CURAI":"MINIT MESYUARAT");
+ const bil=val("bil"),day=val("day"),date=val("date");
+ const agenda=val("agenda");
+ const lines=agenda.split(/\n/);let blocks="",current="",sub=0;
+ for(const line0 of lines){
+  const line=line0.trim();if(!line)continue;
+  if(/^\d+(\.\d+)*[.)]?\s+/.test(line)){
+   const m=line.match(/^(\d+(?:\.\d+)*[.)]?)\s+(.*)$/);
+   current=m[1].replace(/[.)]$/,"");sub=0;
+   blocks+=`<div class="agenda-title">${esc(m[1])} ${esc(m[2])}</div>`;
+  }else if(/^(tindakan|makluman|untuk tindakan|action)\s*:/i.test(line)){
+   blocks+=`<div class="action">${esc(line)}</div>`;
+  }else if(/^(tiada|dimaklumkan|pengerusi|mesyuarat|guru|semua|ketua|cadangan|antara|beliau|ahli|setiausaha|perkara|keputusan|tindakan)/i.test(line)){
+   sub++;blocks+=`<div class="subitem">${current?esc(current+"."+sub)+" ":""}${esc(line)}</div>`;
+  }else{
+   blocks+=`<div class="subitem">${esc(line)}</div>`;
+  }
+ }
+ const meta=[
+ ["Tarikh",`${date}${day?` (${day})`:""}`],["Masa",val("time")],["Tempat",val("venue")],
+ [curai?"Pengerusi / Penyampai":"Pengerusi",val("chair")],
+ ["Kehadiran (Bilangan)",val("attendance")],["Turut hadir (Jika ada)",val("attendOther")]
+ ];
+ let metaHtml=meta.filter(x=>x[1]).map(x=>`<div><span>${esc(x[0])}</span><span>: ${esc(x[1])}</span></div>`).join("");
+ let out=`<div class="topline">${esc(val("code")||"PK07 – Pengurusan Mesyuarat")}</div>
+ <div class="school">${esc(school)}</div><div class="doc-title">${esc(title)}${bil?"<br>"+esc(bil):""}</div>
+ <div class="meta">${metaHtml}</div>`;
+ if(curai){
+   out+=`<div class="agenda-title">TUJUAN / FOKUS</div>${blocks}<div class="closing"><b>RUMUSAN / TINDAKAN SUSULAN</b><p>${br(val("closing"))}</p></div>`;
+ }else{
+   out+=`<div class="agenda">${blocks}</div><div class="closing"><b>PENUTUP</b><p>${br(val("closing"))}</p></div>
+   <div class="signature">Disediakan oleh,<br><b>NOR ANISSYAFIKA SYAFRUDIN</b><br>SETIAUSAHA PANITIA BAHASA INGGERIS<br><br>Tarikh: ${esc(val("prepared"))}</div>`;
+ }
+ if(attachments.length){out+=`<div class="lampiran"><h3>LAMPIRAN</h3>${attachments.map((a,i)=>`<figure><img src="${a}" alt="Lampiran ${i+1}"><figcaption>Lampiran ${i+1}</figcaption></figure>`).join("")}</div>`}
+ out+=`<div class="footer">${esc(val("footer"))}</div>`;
+ $("paper").innerHTML=out;
+}
+function autoFormat(){
+ const raw=val("raw");if(!raw){$("status").textContent="Masukkan atau tampal nota dahulu.";return}
+ const lines=raw.split(/\n|(?<=[.!?])\s+/).map(x=>x.trim()).filter(Boolean);
+ let result="",n=1;
+ for(const line of lines){
+  if(/^(agenda|1\.|2\.|3\.|4\.|5\.|6\.|7\.|8\.|9\.)/i.test(line)){result+=line+"\n"}
+  else if(/^(tindakan|makluman|untuk tindakan)\s*:/i.test(line)){result+=line+"\n"}
+  else {result+=line+"\n"}
+ }
+ $("agenda").value=result;
+ $("status").textContent="Nota disusun secara asas. Sila semak dan tambah nombor agenda / tindakan secara manual.";
+ render();
+}
+async function extractFile(file){
+ const status=$("status");status.textContent="Membaca fail…";
+ try{
+  const ext=file.name.split(".").pop().toLowerCase();let text="";
+  if(ext==="txt"){text=await file.text()}
+  else if(ext==="pdf"){
+   await loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
+   pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+   const pdf=await pdfjsLib.getDocument({data:await file.arrayBuffer()}).promise;
+   for(let i=1;i<=pdf.numPages;i++){const page=await pdf.getPage(i);const c=await page.getTextContent();text+=c.items.map(x=>x.str).join(" ")+"\n"}
+   if(!text.trim())status.textContent="PDF nampaknya imbasan tanpa teks. Cuba OCR imej atau salin teksnya.";
+  }else if(ext==="docx"){
+   await loadScript("https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js");
+   const r=await mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});text=r.value;
+  }else if(["png","jpg","jpeg","webp"].includes(ext)){
+   await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js");
+   const r=await Tesseract.recognize(file,"eng+msa");text=r.data.text;
+  }else{throw new Error("Format tidak disokong. Tukar fail .doc kepada PDF atau DOCX.")}
+  $("raw").value=text;
+  $("status").textContent=`Teks diekstrak daripada ${file.name}. Semak teks, kemudian klik “Susun nota ringkas” dan semak semula sebelum cetak.`;
+ }catch(e){status.textContent="Gagal membaca fail: "+e.message+" — anda boleh tampal teks secara manual."}
+}
+function loadScript(src){return new Promise((resolve,reject)=>{if(document.querySelector(`script[src="${src}"]`))return resolve();const s=document.createElement("script");s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error("Pustaka tidak dapat dimuat turun; semak sambungan internet."));document.head.appendChild(s)})}
+function downloadHtml(){
+ render();const doc=`<!doctype html><html lang="ms"><head><meta charset="utf-8"><title>${esc(val("title")||"Minit")}</title><style>body{font:12pt Arial,Helvetica,sans-serif;margin:20mm;color:#000;line-height:1.25}.paper{max-width:800px;margin:auto}.topline{text-align:right}.school,.doc-title{text-align:center;font-weight:bold}.school{margin:20px 0 8px}.meta{margin:20px 0}.meta div{display:grid;grid-template-columns:185px 1fr;margin:3px 0}.agenda-title{font-weight:bold;margin:10px 0 5px}.subitem{margin:5px 0 5px 28px;white-space:pre-wrap}.action{text-align:right;margin:10px 0 14px}.closing{margin-top:25px}.signature{margin-top:35px}.footer{font-size:9pt;margin-top:30px;border-top:1px solid #aaa;padding-top:5px}@page{size:A4;margin:18mm 20mm}</style></head><body><div class="paper">${$("paper").innerHTML}</div></body></html>`;
+ const blob=new Blob([doc],{type:"text/html;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(val("title")||"minit").replace(/[^\w\- ]/g,"").replace(/\s+/g,"_")+".html";a.click();URL.revokeObjectURL(a.href);
+}
+$("attachFiles").addEventListener("change",async e=>{try{for(const f of e.target.files)attachments.push(await readImage(f));renderThumbs();render();$("status").textContent=attachments.length+" gambar lampiran ditambah."}catch(err){$("status").textContent="Gagal tambah lampiran: "+err.message}e.target.value=""});
+$("generate").onclick=render;$("refresh").onclick=render;$("auto").onclick=autoFormat;$("print").onclick=()=>{render();window.print()};$("download").onclick=downloadHtml;
+$("file").addEventListener("change",e=>{if(e.target.files[0])extractFile(e.target.files[0])});
+$("clear").onclick=()=>{if(!confirm("Kosongkan nota, agenda dan maklumat mesyuarat?"))return;["bil","day","date","time","venue","chair","attendance","attendOther","prepared","raw"].forEach(id=>$(id).value="");$("agenda").value="";$("closing").value="";attachments=[];renderThumbs();render();$("status").textContent="Ruangan dikosongkan."};
+$("type").onchange=()=>{if(val("type")==="curai"){$("title").value="MINIT CURAI";$("code").value="MINIT CURAI"}else{$("title").value="MINIT MESYUARAT PANITIA BAHASA INGGERIS";$("code").value="PK 07/3"}render()};
+
+async function generateWithAI(){
+ const status=$("status");
+ const source=val("raw");
+ const agenda=val("agenda");
+ if(!source && !agenda){status.textContent="Masukkan nota atau agenda dahulu.";return}
+ const btn=$("aiGenerate");btn.disabled=true;btn.textContent="Sedang menjana…";
+ status.textContent="Menghantar nota ke backend AI yang dikonfigurasi…";
+ try{
+  const payload={
+   provider:val("provider"),
+   documentType:val("type"),
+   fields:{
+    school:val("school"),title:val("title"),bil:val("bil"),code:val("code"),
+    day:val("day"),date:val("date"),time:val("time"),venue:val("venue"),
+    chair:val("chair"),attendance:val("attendance"),attendOther:val("attendOther"),
+    prepared:val("prepared"),closing:val("closing"),footer:val("footer")
+   },
+   rawNotes:source, existingAgenda:agenda, instructions:val("prompt")
+  };
+  const response=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||"Permintaan AI gagal.");
+  $("agenda").value=data.agenda||agenda;
+  if(data.title && !val("title"))$("title").value=data.title;
+  if(data.closing)$("closing").value=data.closing;
+  if(data.fields){
+   for(const id of ["day","date","time","venue","chair","attendance","attendOther","bil","prepared"]){
+    if(data.fields[id] && !val(id))$(id).value=data.fields[id];
+   }
+  }
+  render();
+  status.textContent="Draf AI siap. Semak semua nama, tarikh, keputusan dan tindakan sebelum dicetak.";
+ }catch(e){
+  status.textContent="AI belum disambungkan atau berlaku ralat: "+e.message+". Semak deployment backend dan API key dalam Environment Variables.";
+ }finally{btn.disabled=false;btn.textContent="Jana dengan AI"}
+}
+$("aiGenerate").onclick=generateWithAI;
+render();
+</script>
+</body></html>
